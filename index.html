@@ -186,11 +186,6 @@
         <label>Site web</label>
         <input type="text" id="f-web" value="ax-one.ca">
       </div>
-      <div class="field">
-        <label>Adresse (optionnel)</label>
-        <input type="text" id="f-address" value="">
-        <div class="hint">Laisse vide pour ne pas afficher d'adresse.</div>
-      </div>
 
       <div class="divider-form"></div>
 
@@ -226,23 +221,6 @@
         <label>YouTube (URL)</label>
         <input type="text" id="f-youtube" value="">
         <div class="hint">Chaque réseau laissé vide est simplement masqué.</div>
-      </div>
-
-      <div class="divider-form"></div>
-
-      <div class="field">
-        <div class="toggle-row">
-          <input type="checkbox" id="f-tagline" checked>
-          <label for="f-tagline">Afficher le slogan Ax-One</label>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="toggle-row">
-          <input type="checkbox" id="f-legal" checked>
-          <label for="f-legal">Afficher le message de confidentialité (Loi 25)</label>
-        </div>
-        <div class="hint">Mention bilingue FR / EN + lien vers la politique de confidentialité. Recommandé pour la conformité.</div>
       </div>
     </div>
 
@@ -352,7 +330,7 @@
   var DISCLAIMER_FR = "Messages de confidentialité : Ce courriel est exclusivement destiné à la personne ou à l'entité à qui il est adressé et peut contenir des informations privilégiées et confidentielles. Toute divulgation, distribution ou reproduction de ce courriel est strictement interdite. Si vous avez reçu ce courriel par erreur, veuillez nous en aviser immédiatement, détruire toutes les copies et le supprimer de votre système informatique.";
   var DISCLAIMER_EN = "Confidentiality messages: This email is intended solely for the use of the individual or entity to whom it is addressed and may contain privileged and confidential information. Any unauthorized disclosure, distribution, or copying of this email is strictly prohibited. If you have received this email in error, please notify us immediately, delete all copies, and remove it from your computer system.";
   var PRIVACY_URL   = "https://ax-one.ca/politique-de-protection-des-renseignements-personnels/";
-  var PRIVACY_LABEL = "Politique de protection des renseignements personnels / Privacy policy";
+  var PRIVACY_LABEL = "Politique de protection des renseignements personnels";
 
   // ===== LOGO =====
   // Colle ici les 2 URL publiques du vrai logo Ax-One (PNG transparent).
@@ -437,7 +415,6 @@
     var phone = val('f-phone');
     var email = val('f-email');
     var web   = val('f-web');
-    var address = val('f-address');
     var book  = normUrl(val('f-book'));
     var facebook  = normUrl(val('f-facebook'));
     var instagram = normUrl(val('f-instagram'));
@@ -445,8 +422,8 @@
     var linkedin  = normUrl(val('f-linkedin'));
     var xcom      = normUrl(val('f-x'));
     var youtube   = normUrl(val('f-youtube'));
-    var showTag = document.getElementById('f-tagline').checked;
-    var showLegal = document.getElementById('f-legal').checked;
+    var showTag = true;
+    var showLegal = true;
     var webHref = web ? normUrl(web) : "";
 
     var parts = [];
@@ -456,10 +433,6 @@
     var sep = '<span style="color:'+ORANGE+';">&nbsp;&bull;&nbsp;</span>';
     var contactLine = parts.length
       ? '<div class="axsig-contact" style="font-family:Inter,Helvetica,Arial,sans-serif;font-size:12px;color:'+P.contact+';padding-top:2px;line-height:1.5;">'+parts.join(sep)+'</div>'
-      : '';
-
-    var addressLine = address
-      ? '<div class="axsig-contact" style="font-family:Inter,Helvetica,Arial,sans-serif;font-size:12px;color:'+P.contact+';padding-top:6px;line-height:1.5;">'+esc(address)+'</div>'
       : '';
 
     // ordre: Facebook, Instagram, TikTok, LinkedIn, X, YouTube
@@ -506,8 +479,6 @@
         + '<div class="axsig-legal" style="font-family:Inter,Helvetica,Arial,sans-serif;font-size:9px;color:'+P.legal+';line-height:1.45;">'
         + esc(DISCLAIMER_FR)
         + '<br><br>'
-        + esc(DISCLAIMER_EN)
-        + '<br><br>'
         + '<a href="'+esc(PRIVACY_URL)+'" target="_blank" style="color:'+ORANGE+';text-decoration:none;font-weight:600;">'+esc(PRIVACY_LABEL)+'</a>'
         + '</div>'
       : '';
@@ -516,7 +487,7 @@
       '<div class="axsig-name" style="font-family:Inter,Helvetica,Arial,sans-serif;font-size:17px;font-weight:800;color:'+P.ink+';letter-spacing:-0.2px;line-height:1.2;">'+esc(name)+'</div>'
       + titleLine;
 
-    var midBlock = contactLine + addressLine + actionRow;
+    var midBlock = contactLine + actionRow;
 
     var card =
       '<table role="presentation" class="axsig-card" cellpadding="0" cellspacing="0" border="0" width="460" '
@@ -553,10 +524,8 @@
   }
 
   // live update
-  ['f-name','f-title','f-phone','f-email','f-web','f-address','f-book','f-facebook','f-instagram','f-tiktok','f-linkedin','f-x','f-youtube']
+  ['f-name','f-title','f-phone','f-email','f-web','f-book','f-facebook','f-instagram','f-tiktok','f-linkedin','f-x','f-youtube']
     .forEach(function(id){ document.getElementById(id).addEventListener('input', render); });
-  document.getElementById('f-tagline').addEventListener('change', render);
-  document.getElementById('f-legal').addEventListener('change', render);
 
   // copy
   document.getElementById('btn-copy').addEventListener('click', function(){
