@@ -371,7 +371,11 @@
   };
   var ORANGE = '#E2632B';
 
-  function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function esc(s){
+    return (s||"")
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")
+      .replace(/[\u0080-\uFFFF]/g, function(c){ return "&#"+c.charCodeAt(0)+";"; });
+  }
   function val(id){ return document.getElementById(id).value.trim(); }
   function normUrl(u){ if(!u) return ""; return /^https?:\/\//i.test(u) ? u : "https://"+u; }
 
@@ -452,7 +456,7 @@
         + '<td bgcolor="'+ORANGE+'" style="background-color:'+ORANGE+';border-radius:8px;">'
         + '<a href="'+esc(book)+'" target="_blank" style="display:inline-block;padding:9px 18px;'
         + 'font-family:Inter,Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;color:#ffffff;text-decoration:none;">'
-        + 'Réserver un appel</a></td></tr></table>'
+        + 'R&#233;server un appel</a></td></tr></table>'
       : '';
 
     var actionRow = "";
